@@ -1,25 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function Chatwindow({ socket }) {
-  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
 
-  const sendMessage = () => {
-    if (message.trim() !== "") {
-      socket.send(message);
-      setMessage("");
-    }
-  };
+  useEffect(() => {
+    if (!socket) return;
 
+    socket.onmessage = async (event) => {
+      console.log(event);
+      const text = await event.data.text();
+      setMessages((prev) => [...prev, text]);
+    };
+  }, [socket]);
   return (
     <div>
-      <input
-        type="text"
-        value={message}
-        onChange={(e) => {
-          setMessage(e.target.value);
-        }}
-      ></input>
-      <button onClick={sendMessage}>Send</button>
+      {messages.map((m, i) => (
+        <div key={i}>{m}</div>
+      ))}
     </div>
   );
 }

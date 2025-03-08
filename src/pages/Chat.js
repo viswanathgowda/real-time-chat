@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Messgeinput from "../components/Messgeinput";
 import Chatwindow from "../components/Chatwindow";
 
 function Chat() {
@@ -13,6 +14,7 @@ function Chat() {
   return (
     <div>
       <h1>Happy Chatting!</h1>
+      <Messgeinput socket={socket} />
       <Chatwindow socket={socket} />
     </div>
   );
